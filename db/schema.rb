@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922072409) do
+ActiveRecord::Schema.define(version: 20170922130518) do
 
   create_table "features", force: :cascade do |t|
     t.string   "ticket_id"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20170922072409) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "logs", force: :cascade do |t|
+    t.integer  "user_feature_id"
+    t.float    "duration"
+    t.text     "description"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "user_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -34,6 +43,16 @@ ActiveRecord::Schema.define(version: 20170922072409) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], name: "index_roles_on_name"
+
+  create_table "user_features", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "feature_id"
+    t.float    "duration"
+    t.text     "period"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float    "remaining"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

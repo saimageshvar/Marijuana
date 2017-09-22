@@ -11,31 +11,55 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :ticket_id %><br>
-    <%= f.text_field :ticket_id %>
+  <div class="row">
+    <div class="input-field col s12">
+      <i class="material-icons prefix p-t-xs">vpn_key</i>
+      <%= f.label :ticket_id %><br>
+      <%= f.text_field :ticket_id %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <div class="row">
+    <div class="input-field col s12">
+      <i class="material-icons prefix p-t-xs">text_fields</i>
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
+  <div class="row">
+    <div class="input-field col s12">
+      <i class="material-icons prefix p-t-xs">textsms</i>
+      <%= f.label :description %><br>
+      <%= f.text_field :description %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :no_of_days %><br>
-    <%= f.text_field :no_of_days %>
+  <div class="row">
+    <div class="input-field col s12">
+      <i class="material-icons prefix p-t-xs">date_range</i>
+      <%= f.label :no_of_days %><br>
+      <%= f.number_field :no_of_days, min: 1 %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :start_date %><br>
-    <%= f.datetime_select :start_date %>
+  <!-- <div class="row">
+    <div class="input-field col s12">
+      <%#= f.label :start_date %><br>
+      <%#= f.text_field :start_date, class: "datepicker" %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :end_date %><br>
-    <%= f.datetime_select :end_date %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <%#= f.label :end_date %><br>
+      <%#= f.text_field :end_date, class: "datepicker" %>
+    </div>
+  </div> -->
+  <a href="javascript:$('form').submit();" type="submit" name="action" class="btn">Submit</a>
+<% end %>
+<%= javascript_tag do %>
+   $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 25, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: true
+  });
 <% end %>

@@ -1,5 +1,6 @@
 class FeaturesController < ApplicationController
   before_action :set_feature, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   # GET /features
   # GET /features.json
@@ -28,7 +29,7 @@ class FeaturesController < ApplicationController
 
     respond_to do |format|
       if @feature.save
-        format.html { redirect_to @feature, notice: 'Feature was successfully created.' }
+        format.html { redirect_to root_path }
         format.json { render :show, status: :created, location: @feature }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class FeaturesController < ApplicationController
   def update
     respond_to do |format|
       if @feature.update(feature_params)
-        format.html { redirect_to @feature, notice: 'Feature was successfully updated.' }
+        format.html { redirect_to root_path }
         format.json { render :show, status: :ok, location: @feature }
       else
         format.html { render :edit }

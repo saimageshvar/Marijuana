@@ -1,0 +1,22 @@
+<% @tasks_without_deadline.each do |task| %>
+	<div class="row m-md p-md grey lighten-4">
+		<%= form_for(task) do |f| %>
+			<label><%= task.feature.name %></label>
+			<% taken_days = task.feature.user_features.inject(0) { |sum, uf| sum + uf.duration.to_i } %>
+			<% max_available = task.feature.no_of_days.to_i - taken_days %>
+			<%= f.number_field :duration, min: 1,  max: max_available %>
+			<%= from_and_to_dates %>
+			<a href="javascript:$('#edit_user_feature_<%= task.id %>').submit();" type="submit" name="action" class="btn">Submit</a>
+		<% end %>
+	</div>
+<% end %>
+<%= javascript_tag do %>
+   $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 25, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: true
+  });
+<% end %>

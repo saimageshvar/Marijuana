@@ -1,0 +1,41 @@
+<%= link_to "Log out", destroy_user_session_path, :method => :delete  %>
+<div class="row">
+	<div class="col s3 m2">
+		<ul id="nav-mobile" class="side-nav fixed">
+	    <li>
+	    	<div class="user-view">
+	    	</div>
+	    </li>
+	    <li><a href="javascript:void(0)" data-url="<%= features_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Features</a></li>
+	    <li><a href="#"><i class="material-icons">timeline</i>Progress</a></li>
+	    <%if current_user.has_role? :admin %>
+		    <li><a href="javascript:void(0)" data-url="<%= assignment_index_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Assignments</a></li>
+		  <% elsif current_user.has_role? :developer %>
+		    <li><a href="javascript:void(0)" data-url="<%= tasks_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Tasks</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= logs_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Logs</a></li>
+		  <% end %>
+	    <li><div class="divider"></div></li>
+  	</ul>
+  	<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+	</div>
+	<div class="col s9 m10 cjs-main-container">
+	</div>
+</div>
+<%= javascript_tag do %>
+	jQuery(function() {
+    jQuery('.button-collapse').sideNav();
+	});
+	jQuery(".cjs-nav-link").click(function() {
+		jQuery.ajax({
+      url: jQuery(this).data('url'),
+      type: 'GET',
+      beforeSend: function(){
+            jQuery(".loader").removeClass('hide');
+          },
+      success: function(response){
+        jQuery(".cjs-main-container").html(response); 
+        jQuery(".loader").addClass('hide');
+      }
+    });
+	});
+<% end %>

@@ -9,8 +9,6 @@
       <th>Name</th>
       <th>Description</th>
       <th>No of days</th>
-      <th>Start date</th>
-      <th>End date</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -22,16 +20,41 @@
         <td><%= feature.name %></td>
         <td><%= feature.description %></td>
         <td><%= feature.no_of_days %></td>
-        <td><%= feature.start_date %></td>
-        <td><%= feature.end_date %></td>
-        <td><%= link_to 'Show', feature %></td>
-        <td><%= link_to 'Edit', edit_feature_path(feature) %></td>
-        <td><%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if (can? :update, @feature) || (current_user.has_role? :admin) %>
+          <td><%= link_to 'Edit', "javascript:void(0)", data: {url: edit_feature_path(feature)}, class: "cjs-add-new-feature cjs-modal-link" %></td>
+          <td><%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
+<% if can? :manage, Feature %>
+  <%= link_to 'New Feature', "javascript:void(0)", data: {url: new_feature_path}, class: "cjs-add-new-feature cjs-modal-link" %>
+<% end %>
 
-<%= link_to 'New Feature', new_feature_path %>
+ <div id="new_feature_modal" class="modal">
+    <div class="modal-content">
+      <h5>Feature</h5>
+      <div class="cjs-new-feature-form"></div>
+    </div>
+  </div>
+
+<%= javascript_tag do %>
+  jQuery(".cjs-add-new-feature").click(function() {
+    jQuery.ajax({
+      url: jQuery(this).data('url'),
+      type: 'GET',
+      beforeSend: function(){
+            jQuery(".loader").removeClass('hide');
+          },
+      success: function(response){
+        jQuery(".cjs-new-feature-form").html(response); 
+        jQuery(".loader").addClass('hide');
+        $('.modal').modal();
+        $('#new_feature_modal').modal('open');
+      }
+    });
+  });
+<% end %>

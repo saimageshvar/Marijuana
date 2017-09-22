@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
+  resources :logs
   resources :features
+  resources :dashboard
+  resources :assignment
+  resources :user_features
+  resources :tasks
   # You can have the root of your site routed with "root"
 
-  root 'features#index'
+  root 'dashboard#index'
 
 
   devise_for :users, controllers: {
