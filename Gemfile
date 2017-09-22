@@ -29,6 +29,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+# materialize-css
+gem 'materialize-sass'
+gem 'material_icons'
+
+gem 'devise'
+gem 'cancancan'
+gem 'rolify'
 
 group :production do
   gem 'pg', '0.20.0'
@@ -42,6 +49,7 @@ group :development, :test do
 end
 
 group :development do
+	gem "letter_opener"
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
