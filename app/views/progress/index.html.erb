@@ -1,0 +1,17 @@
+<div class="row m-xs">
+	<% @features.each do |feature| %>
+		<div class="row">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title p-b-md"><%= feature.name %></span>
+						<span class="new badge" data-badge-caption="<%= feature.status %>"></span>
+					</div>
+					<div class="card-action">
+						<a href="#">asd</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

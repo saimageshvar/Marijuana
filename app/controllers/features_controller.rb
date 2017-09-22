@@ -29,7 +29,7 @@ class FeaturesController < ApplicationController
 
     respond_to do |format|
       if @feature.save
-        format.html { redirect_to root_path }
+        format.html { redirect_to root_path(tab: 1) }
         format.json { render :show, status: :created, location: @feature }
       else
         format.html { render :new }

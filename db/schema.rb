@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922130518) do
+ActiveRecord::Schema.define(version: 20170922190233) do
 
   create_table "features", force: :cascade do |t|
     t.string   "ticket_id"
@@ -49,9 +49,10 @@ ActiveRecord::Schema.define(version: 20170922130518) do
     t.integer  "feature_id"
     t.float    "duration"
     t.text     "period"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.float    "remaining"
+    t.float    "working_days"
   end
 
   create_table "users", force: :cascade do |t|

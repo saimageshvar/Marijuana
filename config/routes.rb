@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :logs
   resources :features
   resources :dashboard
+  resources :progress
   resources :assignment
   resources :user_features
   resources :tasks

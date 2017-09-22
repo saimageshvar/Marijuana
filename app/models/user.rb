@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
 
 	DEFAULT_ROLE = :developer
 	DEVELOPER_ROLE = :developer
+  ADMIN_ROLE = :admin
+
+  after_save :assign_default_role
 
   rolify
   devise :database_authenticatable, :registerable,

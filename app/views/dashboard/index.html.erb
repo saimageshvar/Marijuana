@@ -6,13 +6,13 @@
 	    	<div class="user-view">
 	    	</div>
 	    </li>
-	    <li><a href="javascript:void(0)" data-url="<%= features_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Features</a></li>
-	    <li><a href="#"><i class="material-icons">timeline</i>Progress</a></li>
+	    <li><a href="javascript:void(0)" data-url="<%= features_path %>" class="cjs-nav-link"><i class="material-icons cjs-tab-1">art_track</i>Features</a></li>
+	    <li><a href="javascript:void(0)" data-url="<%= progress_index_path %>" class="cjs-nav-link cjs-tab-2"><i class="material-icons">timeline</i>Progress</a></li>
 	    <%if current_user.has_role? :admin %>
-		    <li><a href="javascript:void(0)" data-url="<%= assignment_index_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Assignments</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= assignment_index_path %>" class="cjs-nav-link cjs-tab-3"><i class="material-icons">art_track</i>Assignments</a></li>
 		  <% elsif current_user.has_role? :developer %>
-		    <li><a href="javascript:void(0)" data-url="<%= tasks_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Tasks</a></li>
-		    <li><a href="javascript:void(0)" data-url="<%= logs_path %>" class="cjs-nav-link"><i class="material-icons">art_track</i>Logs</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= tasks_path %>" class="cjs-nav-link cjs-tab-4"><i class="material-icons">art_track</i>Tasks</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= logs_path %>" class="cjs-nav-link cjs-tab-5"><i class="material-icons">art_track</i>Logs</a></li>
 		  <% end %>
 	    <li><div class="divider"></div></li>
   	</ul>
@@ -24,6 +24,7 @@
 <%= javascript_tag do %>
 	jQuery(function() {
     jQuery('.button-collapse').sideNav();
+    jQuery('.cjs-tab-<%= params[:tab] %>').click();
 	});
 	jQuery(".cjs-nav-link").click(function() {
 		jQuery.ajax({
