@@ -1,0 +1,36 @@
+<%= form_for(@misc) do |f| %>
+  <% if @misc.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@misc.errors.count, "error") %> prohibited this misc from being saved:</h2>
+
+      <ul>
+      <% @misc.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :misc_date %><br>
+    <%= f.text_field :misc_date, class: "datepicker", required: true %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= javascript_tag do %>
+   $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 25, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: true
+  });
+<% end %>

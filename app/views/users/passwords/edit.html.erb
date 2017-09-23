@@ -1,25 +1,38 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+<div class="container">
+  <div class="row" style="margin-top: 30vh">
+    <div class="col s12 m6 offset-m3">
+      <div class="card grey lighten-4">
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+          <%= f.hidden_field :reset_password_token %>
+          <div class="card-content">
+            <span class="card-title p-b-md">Change your password</span>
+              <div class="row">
+                <div class="input-field col s6"> 
+                  <i class="material-icons prefix p-t-xs">vpn_key</i>
+                  <%= f.password_field :password, autocomplete: "off", required: true, class: "validate" %>
+                  <%= f.label :password, "Password (min #{@minimum_password_length} chars)" %>
+                </div>
+                <div class="input-field col s6">
+                  <%= f.password_field :password_confirmation, autocomplete: "off", required: true, class: "validate" %>
+                  <%= f.label :password_confirmation %><br />
+                </div>
+              </div>     
+          </div>
+          <div class="card-action">
+            <a href="javascript:$('form').submit();" type="submit" name="action">Submit</a>
+            <%= render "users/shared/links" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= javascript_tag do %>
+  jQuery(function() {
+    <% if flash[:alert].present? %>
+      <% flash[:alert].each do |alert| %>
+        Materialize.toast('<%= alert   %>', 5000);
+      <% end %>
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
+  });
 <% end %>
-
-<%= render "users/shared/links" %>

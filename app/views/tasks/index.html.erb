@@ -1,15 +1,20 @@
-<% @tasks_without_deadline.each do |task| %>
-	<div class="row m-md p-md z-depth-2">
-		<%= form_for(task) do |f| %>
-			<label><%= task.feature.name %></label>
-			<% taken_days = task.feature.user_features.inject(0) { |sum, uf| sum + uf.duration.to_i } %>
-			<% max_available = task.feature.no_of_days.to_i - taken_days %>
-			<%= f.number_field :duration, min: 0,  max: max_available, value: 0 %>
-			<%= from_and_to_dates %>
-			<a href="javascript:void(0)" class="btn cjs-submit-task">Submit</a>
-		<% end %>
-	</div>
-<% end %>
+<div class="container">
+  <% @tasks_without_deadline.each do |task| %>
+  	<div class="row p-md z-depth-2">
+  		<%= form_for(task) do |f| %>
+  			<p class="flow-text"><%= task.feature.name %></p>
+  			<% taken_days = task.feature.user_features.inject(0) { |sum, uf| sum + uf.duration.to_i } %>
+  			<% max_available = task.feature.no_of_days.to_i - taken_days %>
+        <div class="input-field">
+    			<%= f.number_field :duration, min: 0,  max: max_available, step: "any" %>
+          <%= f.label :duration %>
+        </div>
+  			<%= from_and_to_dates %>
+  			<a href="javascript:void(0)" class="btn cjs-submit-task">Submit</a>
+  		<% end %>
+  	</div>
+  <% end %>
+</div>
 <%= javascript_tag do %>
    $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -23,7 +28,6 @@
   jQuery(".cjs-submit-task").click(function(){
   	var form = jQuery(this).closest('form');
   	if((jQuery(form).find('#user_feature_duration').val().trim().length < 1) && (jQuery(form).find('#user_feature_end_date').val().trim().length < 1)) {
-  		alert();
   	}
   	else {
   		form.submit();

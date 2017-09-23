@@ -30,3 +30,10 @@
     </div>
   </div>
 </div>
+<%= javascript_tag do %>
+  jQuery(function() {
+    <% if flash[:alert].present? %>
+      Materialize.toast('<%= flash[:alert] %>', 5000);
+    <% end %>
+  });
+<% end %>

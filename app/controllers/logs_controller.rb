@@ -5,7 +5,10 @@ class LogsController < ApplicationController
   # GET /logs.json
   def index
     @log = Log.new
-    @logs = current_user.logs
+    @logs = current_user.logs.group_by(&:user_feature_id)
+    @features = current_user.features
+    @options_for_select = current_user.user_features.includes(:feature).collect{|uf| [uf.feature.name, uf.id]}
+    @options_for_select << ["Other", 0]
   end
 
   # GET /logs/1
@@ -30,8 +33,10 @@ class LogsController < ApplicationController
     respond_to do |format|
       if @log.save
         user_feature = @log.user_feature
-        user_feature.remaining -= @log.duration
-        user_feature.save
+        if user_feature.present?
+          user_feature.remaining -= @log.duration
+          user_feature.save
+        end
         format.html { redirect_to @log, notice: 'Log was successfully created.' }
         format.json { render :show, status: :created, location: @log }
       else

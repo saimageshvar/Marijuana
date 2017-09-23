@@ -1,16 +1,33 @@
-<h2>Forgot your password?</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+<div class="container">
+  <div class="row" style="margin-top: 30vh">
+    <div class="col s12 m6 offset-m3">
+      <div class="card grey lighten-4">
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+          <div class="card-content">
+            <span class="card-title p-b-md">Forgot Password</span>
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix p-t-xs">email</i>
+                  <%= f.email_field :email, autofocus: true, class: "validate", required: true %>
+                  <%= f.label :email, data: {error: "wrong", success: "right"} %>
+                </div>
+              </div>      
+          </div>
+          <div class="card-action">
+            <a href="javascript:$('form').submit();" type="submit" name="action">Submit</a>
+            <%= render "users/shared/links" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
+</div>
+<%= javascript_tag do %>
+  jQuery(function() {
+    <% if flash[:alert].present? %>
+      <% flash[:alert].each do |alert| %>
+        Materialize.toast('<%= alert   %>', 5000);
+      <% end %>
+    <% end %>
+  });
 <% end %>
-
-<%= render "users/shared/links" %>

@@ -9,11 +9,13 @@
 	    <li><a href="javascript:void(0)" data-url="<%= features_path %>" class="cjs-nav-link"><i class="material-icons cjs-tab-1">art_track</i>Features</a></li>
 	    <li><a href="javascript:void(0)" data-url="<%= progress_index_path %>" class="cjs-nav-link cjs-tab-2"><i class="material-icons">timeline</i>Progress</a></li>
 	    <%if current_user.has_role? :admin %>
-		    <li><a href="javascript:void(0)" data-url="<%= assignment_index_path %>" class="cjs-nav-link cjs-tab-3"><i class="material-icons">art_track</i>Assignments</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= assignment_index_path %>" class="cjs-nav-link cjs-tab-3"><i class="material-icons">perm_identity</i>Assignments</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= miscs_path %>" class="cjs-nav-link cjs-tab-5"><i class="material-icons">donut_large</i>Misc</a></li>
 		  <% elsif current_user.has_role? :developer %>
-		    <li><a href="javascript:void(0)" data-url="<%= tasks_path %>" class="cjs-nav-link cjs-tab-4"><i class="material-icons">art_track</i>Tasks</a></li>
-		    <li><a href="javascript:void(0)" data-url="<%= logs_path %>" class="cjs-nav-link cjs-tab-5"><i class="material-icons">art_track</i>Logs</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= tasks_path %>" class="cjs-nav-link cjs-tab-4"><i class="material-icons">hourglass_full</i>Tasks</a></li>
+		    <li><a href="javascript:void(0)" data-url="<%= logs_path %>" class="cjs-nav-link cjs-tab-5"><i class="material-icons">playlist_add_check</i>Logs</a></li>
 		  <% end %>
+		  <li><a href="<%= destroy_user_session_path %>" data-method="delete"><i class="material-icons">exit_to_app</i>Logout</a></li>
 	    <li><div class="divider"></div></li>
   	</ul>
   	<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -32,10 +34,12 @@
       type: 'GET',
       beforeSend: function(){
             jQuery(".loader").removeClass('hide');
+            jQuery('.cjs-main-container').hide();
           },
       success: function(response){
         jQuery(".cjs-main-container").html(response); 
         jQuery(".loader").addClass('hide');
+        jQuery('.cjs-main-container').show();
       }
     });
 	});

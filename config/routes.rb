@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :miscs
   resources :logs
   resources :features
   resources :dashboard

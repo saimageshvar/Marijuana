@@ -1,38 +1,34 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <% if can? :manage, Feature %>
+    <a class="btn-floating waves-effect waves-light red right cjs-add-new-feature cjs-modal-link" style="top: 20px; left: 20px", data-url="<%= new_feature_path %>"><i class="material-icons">add</i></a>
+  <% end %>
 
-<h1>Listing Features</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Ticket</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>No of days</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @features.each do |feature| %>
+  <table class="centered z-depth-2 hoverable m-t-md">
+    <thead>
       <tr>
-        <td><%= feature.ticket_id %></td>
-        <td><%= feature.name %></td>
-        <td><%= feature.description %></td>
-        <td><%= feature.no_of_days %></td>
-        <% if (can? :update, @feature) || (current_user.has_role? :admin) %>
-          <td><%= link_to 'Edit', "javascript:void(0)", data: {url: edit_feature_path(feature)}, class: "cjs-add-new-feature cjs-modal-link" %></td>
-          <td><%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
+        <th>Ticket</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>No of days</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-<% if can? :manage, Feature %>
-  <%= link_to 'New Feature', "javascript:void(0)", data: {url: new_feature_path}, class: "cjs-add-new-feature cjs-modal-link" %>
-<% end %>
+    <tbody>
+      <% @features.each do |feature| %>
+        <tr>
+          <td><%= feature.ticket_id %></td>
+          <td><%= feature.name %></td>
+          <td><%= feature.description %></td>
+          <td><%= feature.no_of_days %></td>
+          <% if (can? :update, @feature) || (current_user.has_role? :admin) %>
+            <td><%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
  <div id="new_feature_modal" class="modal">
     <div class="modal-content">

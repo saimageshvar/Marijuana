@@ -25,7 +25,7 @@ class UserFeaturesController < ApplicationController
 			period = {start_date: start_date, end_date: end_date}
 		end
 		user_feature.period << period
-		user_feature.working_days = get_without_weekends(Array(period[:start_date]..period[:end_date]))
+		user_feature.working_days = get_without_weekends_and_misc(Array(period[:start_date]..period[:end_date]))
 		user_feature.remaining = user_feature.working_days
 		user_feature.save
 		redirect_to dashboard_index_path and return

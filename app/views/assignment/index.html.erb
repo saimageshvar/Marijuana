@@ -1,40 +1,81 @@
-<div class="row m-md p-md grey lighten-4">
-	<h5 class="grey-text text-darken-1">Assign It!</h5>
-	<%= form_for(@assignment) do |f| %>
-		<div class="input-field col s12">
-			<%= f.select("feature", options_from_collection_for_select(@features, "id", "ticket_id")) %>
-			<label>Feature</label>
-		</div>
-		<div class="input-field col s12">
-			<%= f.select("user", options_from_collection_for_select(@developers, "id", "email", @developers.first.id), {}, {multiple: true}) %>
-			<label>Developer</label>
-		</div>
-		<a href="javascript:$('form').submit();" type="submit" name="action" class="btn">Submit</a>
-	<% end %>
-</div>
+<div class="container">
+	<div class="row grey lighten-4 hoverable z-depth-2 cjs-assignment-form p-md">
+		<h5 class="grey-text text-darken-1">Assign It!</h5>
+		<%= form_for(@assignment) do |f| %>
+			<div class="input-field col s12">
+				<%= f.select("feature", options_from_collection_for_select(@features, "id", "ticket_id")) %>
+				<label>Feature</label>
+			</div>
+			<div class="input-field col s12">
+				<%= f.select("user", options_from_collection_for_select(@developers, "id", "email", @developers.first.id), {}, {multiple: true}) %>
+				<label>Developer</label>
+			</div>
+			<a href="javascript:$('form').submit();" type="submit" name="action" class="btn">Submit</a>
+		<% end %>
+	</div>
 
-<div class="divider m-md"></div>
+	<div class="divider"></div>
 
-<div class="row m-xs">
-	<% @assignments.each do |assignment| %>
-		<div class="row">
-			<div class="col s12">
-				<div class="card">
+	<div class="row">
+		<div class="col s12 m9 l10">
+			<% @assignments.each do |user_id, user_features| %>
+				<div class="card section scrollspy hoverable" id="developer_<%= user_id %>">
 					<div class="card-content">
-						<span class="card-title p-b-md"><%= assignment.feature.name %></span>
-						<p><%= assignment.feature.description %></p>
+						<span class="card-title	">
+							<%= user_features.first.user.email %>
+						</span>
+						<div>
+							<table class="centered">
+	      				<thead>
+	        				<tr>
+			              <th>Feature</th>
+			              <th>Ticket</th>
+			              <th>Start Date</th>
+			              <th>End Date</th>
+			              <th>Working Days</th>
+			              <th>Remaining/Overdue</th>
+	        				</tr>
+	      				</thead>
+
+	      				<tbody>
+	      					<% user_features.each do |uf| %>
+					          <tr>
+					            <td><%= uf.feature.name %></td>
+					            <td><%= uf.feature.ticket_id %></td>
+					            <% if uf.duration.present? %>
+						            <td><%= uf.period.first[:start_date].to_formatted_s(:long) %></td>
+						            <td><%= uf.period.first[:end_date].to_formatted_s(:long) %></td>
+						            <td><%= uf.working_days %></td>
+						            <td class="<%= %Q[red-text] if uf.feature.off_track? %>"><%= uf.remaining.abs %></td>
+						          <% end %>
+					          </tr>
+				          <% end %>
+	      				</tbody>
+	    				</table>
+						</div>
 					</div>
 					<div class="card-action">
 						<a href="#">asd</a>
 					</div>
 				</div>
-			</div>
+			<% end %>
 		</div>
-	<% end %>
+		<div class="col hide-on-small-only m3 l2 target right" style="right: 0px">
+		  <ul class="section table-of-contents">
+		  	<% @developers.each do |developer| %>
+			    <li class="flow-text"><a href="#developer_<%= developer.id %>"><%= developer.email %></a></li>
+			  <% end %>
+		  </ul>
+		</div>
+	</div>
 </div>
 
 <%= javascript_tag do %>
 	$(document).ready(function() {
     $('select').material_select();
+    $('.scrollspy').scrollSpy();
+	  $('.target').pushpin({
+	  	top: jQuery('.cjs-assignment-form').height()
+		});
   });
 <% end %>

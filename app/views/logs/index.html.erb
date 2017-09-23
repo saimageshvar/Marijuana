@@ -1,39 +1,94 @@
-<div class="row m-md p-md grey lighten-4">
-  <h5 class="grey-text text-darken-1">Log It!</h5>
-  <%= form_for(@log) do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <div class="input-field col s12">
-      <%= f.select(:user_feature_id, options_from_collection_for_select(current_user.user_features, "id", "id")) %>
-    </div>
-    <div class="input-field col s12">
-      <%= f.text_field :duration %>
-    </div>
-    <div class="input-field col s12">
-      <%= f.text_field :description %>
-    </div>
-    <a href="javascript:$('form').submit();" type="submit" name="action" class="btn">Submit</a>
-  <% end %>
-</div>
+<div class="container">
+  <div class="row p-md cjs-log-form z-depth-2 hoverable">
+    <h5 class="grey-text text-darken-1">Log It!</h5>
+    <%= form_for(@log) do |f| %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <div class="input-field col s12">
+        <%= f.select(:user_feature_id, options_for_select(@options_for_select)) %>
+      </div>
+      <div class="input-field col s12">
+        <%= f.number_field :duration, min: 0, step: "any", required: true %>
+        <%= f.label :duration %>
+      </div>
+      <div class="input-field col s12">
+        <%= f.text_field :description %>
+        <%= f.label :description %>
+      </div>
+      <a href="javascript:$('form').submit();" type="submit" name="action" class="btn">Submit</a>
+    <% end %>
+  </div>
 
-<div class="divider m-md"></div>
+  <div class="divider m-t-xs m-b-xs"></div>
 
-<div class="row m-xs">
-  <% @logs.each do |log| %>
-    <div class="row">
-      <div class="col s12">
-        <div class="card">
+  <div class="row">
+    <div class="col s12 m9 l10">
+      <% @logs.each do |user_feature_id, logs| %>
+        <% feature = logs.first.user_feature ? logs.first.user_feature.feature : nil %>
+        <div class="card section scrollspy hoverable z-depth-2" id="user_feature_<%= user_feature_id %>">
           <div class="card-content">
-            <span class="card-title p-b-md"><%= "asd" %></span>
+            <span class="card-title ">
+              <%= feature.present? ? feature.name : "Other" %>
+              <% if feature.present? %>
+                <span class="new badge <%= (feature.off_track? ? %Q[red] : %Q[orange]) if (!feature.on_track?) %>" data-badge-caption="<%= feature.status %>"></span>
+              <% end %>
+            </span>
+            <% if feature.present? %>
+              <p class="flow-text grey-text tooltipped" data-position="left" data-delay="50" data-tooltip="Estimated Date">
+                <%= feature.get_estimated_release_date %> 
+              </p>
+              <p class="flow-text tooltipped" data-position="left" data-delay="50" data-tooltip="Actual Date">
+                <%= feature.get_actual_release_date %> 
+              </p>
+            <% end %>
+            <br/>
+            <div>
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Duration</th>
+                    <th>Description</th>
+                    <th>Logged at</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% logs.each do |log| %>
+                    <tr>
+                      <td><%= log.duration %></td>
+                      <td><%= log.description if log.description.present? %></td>
+                      <td><%= log.created_at.to_formatted_s(:long) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="card-action">
             <a href="#">asd</a>
           </div>
         </div>
-      </div>
+      <% end %>
     </div>
-  <% end %>
+    <div class="col hide-on-small-only m3 l2 target right" style="right: 0px">
+      <ul class="section table-of-contents">
+        <% @logs.keys.each do |user_feature_id| %>
+          <li class="flow-text"><a href="#user_feature_<%= user_feature_id %>">
+            <%= @logs[user_feature_id].first.user_feature ? @logs[user_feature_id].first.user_feature.feature.name : "Other" %>
+          </a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>
 
+<%= javascript_tag do %>
+  $(document).ready(function(){
+    $('.scrollspy').scrollSpy();
+    $('.target').pushpin({
+      top: jQuery('.cjs-log-form').height()
+    });
+  });
+<% end %>
 <%= javascript_tag do %>
   $(document).ready(function() {
     $('select').material_select();

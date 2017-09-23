@@ -8,9 +8,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    @user = User.new(user_params)
+    if !(@user.save)
+      flash[:alert] = @user.errors.full_messages
+    end
+    redirect_to new_user_registration_url and return
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
+  end
 
   # GET /resource/edit
   # def edit
