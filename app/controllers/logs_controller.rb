@@ -37,7 +37,7 @@ class LogsController < ApplicationController
           user_feature.remaining -= @log.duration
           user_feature.save
         end
-        format.html { redirect_to @log, notice: 'Log was successfully created.' }
+        format.html { redirect_to root_url(tab: 5), notice: 'Log was successfully created.' }
         format.json { render :show, status: :created, location: @log }
       else
         format.html { render :new }

@@ -17,4 +17,8 @@ class User < ActiveRecord::Base
   def assign_default_role
     self.add_role(DEFAULT_ROLE) if self.roles.blank?
   end
+
+  def has_unassigned_tasks?
+    user_features.where("duration is ? and period is ?", nil, nil).present?
+  end
 end

@@ -12,7 +12,6 @@ module UserFeaturesHelper
 	end
 
 	def get_without_weekends_and_misc(date_range, return_array = false)
-		byebug
 		dates = get_without_weekends(get_without_misc(date_range, true), true)
 		return_array ? dates : dates.size
 	end

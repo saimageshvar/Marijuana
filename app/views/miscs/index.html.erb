@@ -1,28 +1,50 @@
 
-<h1>Listing Miscs</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Misc date</th>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @miscs.each do |misc| %>
+<div class="container">
+  <% if can? :manage, Feature %>
+    <a class="btn-floating waves-effect waves-light red right cjs-add-new-misc cjs-modal-link" style="top: 20px; left: 20px", data-url="<%= new_misc_path %>"><i class="material-icons">add</i></a>
+  <% end %>
+  <table class="centered z-depth-2 hoverable m-t-md">
+    <thead>
       <tr>
-        <td><%= misc.misc_date %></td>
-        <td><%= misc.description %></td>
-        <td><%= link_to 'Show', misc %></td>
-        <td><%= link_to 'Edit', edit_misc_path(misc) %></td>
-        <td><%= link_to 'Destroy', misc, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Misc date</th>
+        <th>Description</th>
+        <th colspan="1"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @miscs.each do |misc| %>
+        <tr>
+          <td><%= misc.misc_date.to_date.to_formatted_s(:long) %></td>
+          <td><%= misc.description %></td>
+          <td><%= link_to 'Destroy', misc, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<%= link_to 'New Misc', new_misc_path %>
+ <div id="new_misc_modal" class="modal">
+  <div class="modal-content">
+    <h5>Misc</h5>
+    <div class="cjs-new-misc-form p-t-xl p-b-xl"></div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  jQuery(".cjs-add-new-misc").click(function() {
+    jQuery.ajax({
+      url: jQuery(this).data('url'),
+      type: 'GET',
+      beforeSend: function(){
+            jQuery(".loader").removeClass('hide');
+          },
+      success: function(response){
+        jQuery(".cjs-new-misc-form").html(response); 
+        jQuery(".loader").addClass('hide');
+        $('.modal').modal();
+        $('#new_misc_modal').modal('open');
+      }
+    });
+  });
+<% end %>

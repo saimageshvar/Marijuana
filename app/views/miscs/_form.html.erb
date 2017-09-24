@@ -1,27 +1,14 @@
 <%= form_for(@misc) do |f| %>
-  <% if @misc.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@misc.errors.count, "error") %> prohibited this misc from being saved:</h2>
-
-      <ul>
-      <% @misc.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
+  <div class="input-field">
     <%= f.label :misc_date %><br>
     <%= f.text_field :misc_date, class: "datepicker", required: true %>
   </div>
-  <div class="field">
+  <div class="input-field">
     <%= f.label :description %><br>
     <%= f.text_field :description %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <br/> <br />
+  <a href="javascript:$('form').submit();" type="submit" name="action" class="btn">Submit</a>
 <% end %>
 
 <%= javascript_tag do %>

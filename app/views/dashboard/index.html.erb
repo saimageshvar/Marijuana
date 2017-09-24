@@ -2,10 +2,12 @@
 <div class="row">
 	<div class="col s3 m2">
 		<ul id="nav-mobile" class="side-nav fixed">
-	    <li>
-	    	<div class="user-view">
-	    	</div>
-	    </li>
+	    <li><div class="user-view", style="padding-bottom: 20px !important">
+      <div class="background teal darken-2">
+      </div>
+      <a href="#!user"><%= image_tag 'avatar.png', class: "circle avatar", style: "margin-left: 50px" %></a>
+      <a href="#!email"><h4 class="white-text name center-align"><%= current_user.email %></h4></a>
+    </div></li>
 	    <li><a href="javascript:void(0)" data-url="<%= features_path %>" class="cjs-nav-link"><i class="material-icons cjs-tab-1">art_track</i>Features</a></li>
 	    <li><a href="javascript:void(0)" data-url="<%= progress_index_path %>" class="cjs-nav-link cjs-tab-2"><i class="material-icons">timeline</i>Progress</a></li>
 	    <%if current_user.has_role? :admin %>
@@ -26,9 +28,10 @@
 <%= javascript_tag do %>
 	jQuery(function() {
     jQuery('.button-collapse').sideNav();
-    jQuery('.cjs-tab-<%= params[:tab] %>').click();
+    jQuery('.cjs-tab-<%= params[:tab] ? params[:tab] : 1 %>').click();
 	});
 	jQuery(".cjs-nav-link").click(function() {
+		var element = jQuery(this);
 		jQuery.ajax({
       url: jQuery(this).data('url'),
       type: 'GET',
@@ -38,7 +41,9 @@
           },
       success: function(response){
         jQuery(".cjs-main-container").html(response); 
+        jQuery(".cjs-nav-link").closest('li').removeClass("active");
         jQuery(".loader").addClass('hide');
+        element.closest('li').addClass("active");
         jQuery('.cjs-main-container').show();
       }
     });

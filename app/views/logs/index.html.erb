@@ -24,7 +24,7 @@
     <div class="col s12 m9 l10">
       <% @logs.each do |user_feature_id, logs| %>
         <% feature = logs.first.user_feature ? logs.first.user_feature.feature : nil %>
-        <div class="card section scrollspy hoverable z-depth-2" id="user_feature_<%= user_feature_id %>">
+        <div class="card section scrollspy hoverable z-depth-2" id="user_feature_<%= user_feature_id %>" style="border: 1px double teal">
           <div class="card-content">
             <span class="card-title ">
               <%= feature.present? ? feature.name : "Other" %>

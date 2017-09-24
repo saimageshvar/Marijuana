@@ -14,6 +14,9 @@
   		<% end %>
   	</div>
   <% end %>
+  <% if @tasks_without_deadline.empty? %>
+    <h3 class="grey-text text-lighten-1 center-align"> There are no pending tasks </h3>
+  <% end %>
 </div>
 <%= javascript_tag do %>
    $('.datepicker').pickadate({

@@ -27,7 +27,7 @@ class MiscsController < ApplicationController
     @misc = Misc.new(misc_params)
     respond_to do |format|
       if @misc.save
-        format.html { redirect_to @misc, notice: 'Misc was successfully created.' }
+        format.html { redirect_to root_url(tab: 5), notice: 'Misc was successfully created.' }
         format.json { render :show, status: :created, location: @misc }
       else
         format.html { render :new }
