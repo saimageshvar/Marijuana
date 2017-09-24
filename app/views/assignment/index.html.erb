@@ -15,7 +15,6 @@
 	</div>
 
 	<div class="divider"></div>
-
 	<div class="row">
 		<div class="col s12 m9 l10">
 			<% @assignments.each do |user_id, user_features| %>
@@ -59,8 +58,8 @@
 		</div>
 		<div class="col hide-on-small-only m3 l2 target right" style="right: 0px">
 		  <ul class="section table-of-contents">
-		  	<% @developers.each do |developer| %>
-			    <li class="flow-text"><a href="#developer_<%= developer.id %>"><%= developer.email %></a></li>
+		  	<% @assignments.keys.each do |developer_id| %>
+			    <li class="flow-text"><a href="#developer_<%= developer_id %>"><%= @developers.select{|d| d.id == developer_id }.first.email %></a></li>
 			  <% end %>
 		  </ul>
 		</div>
