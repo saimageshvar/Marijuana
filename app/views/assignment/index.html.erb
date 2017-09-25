@@ -45,7 +45,7 @@
 						            <td><%= uf.period.first[:start_date].to_formatted_s(:long) %></td>
 						            <td><%= uf.period.first[:end_date].to_formatted_s(:long) %></td>
 						            <td><%= uf.working_days %></td>
-						            <td class="<%= %Q[red-text] if uf.feature.off_track? %>"><%= uf.remaining.abs %></td>
+						            <td><%= uf.remaining.abs %></td>
 						          <% end %>
 					          </tr>
 				          <% end %>
