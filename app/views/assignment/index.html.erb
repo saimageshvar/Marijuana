@@ -67,6 +67,13 @@
 </div>
 
 <%= javascript_tag do %>
+	jQuery(function() {
+    <% if flash[:alert].present? %>
+      <% flash[:alert].each do |alert| %>
+        Materialize.toast('<%= alert   %>', 5000);
+      <% end %>
+    <% end %>
+  });
 	$(document).ready(function() {
     $('select').material_select();
     $('.scrollspy').scrollSpy();

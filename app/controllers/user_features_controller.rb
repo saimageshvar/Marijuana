@@ -6,10 +6,14 @@ class UserFeaturesController < ApplicationController
 		developer_ids.reject!(&:blank?)
 		developers = User.where("id in (?)", developer_ids)
 		feature = Feature.find_by(id: params[:user_feature][:feature].to_i)
-		developers.each do |dev|
-			dev.features << feature
+		begin
+		  developers.each do |dev|
+				dev.features << feature
+			end
+		rescue ActiveRecord::RecordInvalid => invalid
+		  flash[:alert] = invalid.record.errors.full_messages
 		end
-		redirect_to dashboard_index_path(task: 3) and return
+		redirect_to dashboard_index_path(tab: 3) and return
 	end
 
 	def update
